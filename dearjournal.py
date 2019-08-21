@@ -6,12 +6,17 @@ from pathlib import Path
 ROOT_VAR = "DEARJOURNAL_ROOT"
 
 
-def path_for(now: datetime) -> Path:
+def path_for(instant: datetime) -> Path:
     try:
         root = Path(os.environ[ROOT_VAR])
     except KeyError:
         raise RuntimeError("missing env var {!r}".format(ROOT_VAR))
-    return root / str(now.year) / str(now.month) / "{}.txt".format(now.day)
+    return (
+        root
+        / instant.strftime("%Y")
+        / instant.strftime("%m")
+        / "{}.txt".format(instant.strftime("%d"))
+    )
 
 
 if __name__ == "__main__":
